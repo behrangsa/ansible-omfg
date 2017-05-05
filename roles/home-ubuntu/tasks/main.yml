@@ -1,12 +1,30 @@
 ---
-- name: Ensure the apt cache is updated
+- name: Ensure temp directory exists
+  tags:
+    - always
+  file: >
+    name={{ temp_dir }}
+    state=directory
+
+- name: Ensure apt cache is updated
   apt: >
     update_cache=yes
 
-- name: Install primary apt repositories
+- name: Ensure apt keys are installed
+  apt_key:
+    url={{ item }}
+    state=present
+  with_items:
+    - "https://deb.opera.com/archive.key"
+
+- name: Ensure primary apt repositories are enabled
   apt_repository: >
-    repo="ppa:pithos/ppa"
+    repo={{ item }}
     update_cache=yes
+  with_items:
+   - "deb https://deb.opera.com/opera-stable/ stable non-free"
+   - "ppa:pithos/ppa"
+   - "ppa:webupd8team/sublime-text-3"
 
 - name: Ensure basic packages are installed
   apt: >
@@ -19,6 +37,18 @@
     name={{ item }}
     state=latest
   with_items: "{{ recommended_packages }}"
+   
+- name: Ensure LastPass is downloaded
+  unarchive: >
+    src=https://lastpass.com/lplinux.tar.bz2
+    dest={{ temp_dir }}
+    remote_src=True
+
+- name: Ensure LastPass is installed
+  command: >
+   ./install_lastpass.sh    
+    chdir={{ temp_dir }}/lplinux
+
 
 - name: Ensure Git is configured
   command: >
@@ -30,6 +60,40 @@
       value: behrangsa@gmail.com
     - config: user.name
       value: Behrang Saeedzadeh
+
+- name: Ensure wallpaper is downloaded
+  get_url:
+    headers: "User-Agent:Mozilla/5.0 (X11; Linux x86_64; rv:10.0) Gecko/20100101 Firefox/10.0"
+    url: http://interfacelift.com/wallpaper/D82f91f4/03841_lajollasunset_2560x1440.jpg
+    dest: /usr/share/backgrounds/03841_lajollasunset_2560x1440.jpg
+
+- name: Ensure wallpaper is set
+  become: yes
+  become_user: "{{ current_username }}"
+  shell: >
+    gsettings set org.gnome.desktop.background picture-uri file:///usr/share/backgrounds/03841_lajollasunset_2560x1440.jpg
+
+- name: Ensure JetBrains Toolbox App is downloaded
+  get_url: >
+    url=https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.2.2314.tar.gz
+    dest=/tmp/jetbrains-toolbox.tar.gz
+
+- name: Ensure JetBrains Toolbox temp dir exists
+  file: >
+    name=/tmp/jetbrains-toolbox
+    state=directory 
+
+- name: Ensure JetBrains Toolbox App is unarchived
+  unarchive: >
+    src=/tmp/jetbrains-toolbox.tar.gz
+    dest=/tmp/jetbrains-toolbox
+
+- name: Ensure JetBrains Toolbox App is installed
+  command: >
+    /tmp/jetbrains-toolbox/jetbrains-toolbox-1.2.2314/jetbrains-toolbox
+  become: yes
+  become_user: "{{ current_username }}"
+
 
 # - name: Install JetBrains Toolbox
 # - name: Install SSH Keys

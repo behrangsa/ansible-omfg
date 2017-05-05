@@ -35,6 +35,11 @@ basic_packages:
   - gksu
   - gparted
   - aria2
+  - opera-stable
+  - sublime-text-installer
+  - gnome-shell-extension-weather
 
 recommended_packages:
   - pithos
+
+temp_dir: /tmp/ansible-omfg
