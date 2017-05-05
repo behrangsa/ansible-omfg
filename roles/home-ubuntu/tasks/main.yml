@@ -1,0 +1,33 @@
+---
+- name: Ensure the apt cache is updated
+  apt: >
+    update_cache=yes
+
+- name: Install primary apt repositories
+  apt_repository: >
+    repo="ppa:pithos/ppa"
+    update_cache=yes
+
+- name: Ensure primary packages are installed
+  apt: >
+    name={{ item }}
+    state=latest
+  with_items: "{{ primary_packages }}"
+
+- name: Install JetBrains Toolbox
+- name: Install SSH Keys
+- name: Install Arc-OSX-Icons
+- name: Install OSX-Arc-Darker
+- name: Install Opera
+- name: Install Docker
+  with_items:
+    - neo4j
+    - orientdb
+    - postgresql
+    - rabbitmq
+- Install GPG keys
+- Install Maven
+- Install Conky
+- Run update-pepperflashplugin-nonfree --install
+- Wallpaper
+- Login Screen

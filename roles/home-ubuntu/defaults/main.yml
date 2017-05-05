@@ -1,0 +1,37 @@
+---
+primary_packages:
+  - vim
+  - chromium-codecs-ffmpeg-extra
+  - gstreamer1.0-fluendo-mp3
+  - gstreamer1.0-libav
+  - gstreamer1.0-plugins-bad
+  - gstreamer1.0-plugins-ugly
+  - oxideqt-codecs-extra
+  - libavcodec-extra
+  - ttf-mscorefonts-installer
+  - unrar
+  - tor
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - software-properties-common
+  - guake
+  - guake-indicator
+  - openjdk-8-dbg
+  - openjdk-8-doc
+  - openjdk-8-jdk
+  - openjdk-8-source
+  - git-all
+  - git-flow
+  - gnome-shell-pomodoro
+  - libpango1.0-0
+  - tree
+  - openjfx
+  - youtube-dl
+  - gnupg2
+  - pgpdump
+  - p7zip-full
+  - pepperflashplugin-nonfree
+  - gksu
+  - gparted
+  - aria2
