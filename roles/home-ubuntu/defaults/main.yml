@@ -1,5 +1,5 @@
 ---
-primary_packages:
+basic_packages:
   - vim
   - chromium-codecs-ffmpeg-extra
   - gstreamer1.0-fluendo-mp3
@@ -35,3 +35,6 @@ primary_packages:
   - gksu
   - gparted
   - aria2
+
+recommended_packages:
+  - pithos

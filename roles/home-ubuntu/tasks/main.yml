@@ -8,26 +8,44 @@
     repo="ppa:pithos/ppa"
     update_cache=yes
 
-- name: Ensure primary packages are installed
+- name: Ensure basic packages are installed
   apt: >
     name={{ item }}
     state=latest
-  with_items: "{{ primary_packages }}"
+  with_items: "{{ basic_packages }}"
 
-- name: Install JetBrains Toolbox
-- name: Install SSH Keys
-- name: Install Arc-OSX-Icons
-- name: Install OSX-Arc-Darker
-- name: Install Opera
-- name: Install Docker
+- name: Ensure recommended packages are installed
+  apt: >
+    name={{ item }}
+    state=latest
+  with_items: "{{ recommended_packages }}"
+
+- name: Ensure Git is configured
+  command: >
+    git config --global {{ item.config }} "{{ item.value }}"
+  become: yes
+  become_user: "{{ current_username }}"
   with_items:
-    - neo4j
-    - orientdb
-    - postgresql
-    - rabbitmq
-- Install GPG keys
-- Install Maven
-- Install Conky
-- Run update-pepperflashplugin-nonfree --install
-- Wallpaper
-- Login Screen
+    - config: user.email
+      value: behrangsa@gmail.com
+    - config: user.name
+      value: Behrang Saeedzadeh
+
+# - name: Install JetBrains Toolbox
+# - name: Install SSH Keys
+# - name: Install Arc-OSX-Icons
+# - name: Install OSX-Arc-Darker
+# - name: Install Opera
+# - name: Install Docker
+#   with_items:
+#     - neo4j
+#     - orientdb
+#     - postgresql
+#     - rabbitmq
+# - Install GPG keys
+# - Install Maven
+# - Install Conky
+# - Run update-pepperflashplugin-nonfree --install
+# - Wallpaper
+# - Login Screen
+
